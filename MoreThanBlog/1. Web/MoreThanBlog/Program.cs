@@ -24,6 +24,7 @@ namespace MoreThanBlog
                 }
                 catch (Exception ex)
                 {
+
                 }
             }
         }
