@@ -1,0 +1,5 @@
+﻿{
+  "ConnectionStrings": {
+    "Development": "Data Source=MSI\\PHUCSQLEXPRESS;Initial Catalog=MoreThanBlog;User ID=sa;Password=123456;Trusted_Connection=False;MultipleActiveResultSets=True"
+  }
+}
