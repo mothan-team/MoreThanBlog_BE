@@ -1,8 +1,10 @@
 using System;
 using Abstraction.Service.UserService;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Repository;
 
 namespace MoreThanBlog
 {
@@ -14,9 +16,11 @@ namespace MoreThanBlog
 
             using (var scope = host.Services.CreateScope())
             {
+                var context = scope.ServiceProvider.GetService<Repository.DbContext>();
+                context.Database.Migrate();
                 var userService = scope.ServiceProvider.GetService<IUserService>();
-
                 userService.InitAdminAccountAsync().Wait();
+                context.Dispose();
 
                 try
                 {
