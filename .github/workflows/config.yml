@@ -29,3 +29,24 @@ jobs:
           dotnet build -c Release -o bin/build
           pwd
           ls
+
+      - name: Copy build files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          strip_components: 5
+          source: "/home/runner/work/MoreThanBlog_BE/MoreThanBlog_BE/MoreThanBlog/1. Web/MoreThanBlog/bin/build/"
+          target: "morethan/more-than-blogs-admin/build"
+
+      - name: Restart server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd morethan
+            docker-compose down
+            docker-compose up --detach --build
