@@ -35,7 +35,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
           source: "/home/runner/work/MoreThanBlog_BE/MoreThanBlog_BE/MoreThanBlog/1. Web/MoreThanBlog/bin/build/"
-          target: "morethan/more-than-blogs-admin/build"
+          target: "morethan/more-than-blogs-api/build"
 
       - name: Restart server
         uses: appleboy/ssh-action@master
