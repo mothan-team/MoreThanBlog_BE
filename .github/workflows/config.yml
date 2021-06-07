@@ -34,6 +34,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.KEY }}
+          strip_components: 7
           source: "/home/runner/work/MoreThanBlog_BE/MoreThanBlog_BE/MoreThanBlog/1. Web/MoreThanBlog/bin/build/"
           target: "morethan/more-than-blogs-api/build"
 
