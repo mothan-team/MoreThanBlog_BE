@@ -17,6 +17,7 @@ namespace Repository
         #region DbSet
 
         public DbSet<UserEntity> User { get; set; }
+        public DbSet<CategoryEntity> Category { get; set; }
 
         #endregion
 

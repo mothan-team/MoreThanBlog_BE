@@ -10,5 +10,7 @@ namespace Abstraction.Service.UserService
         Task<JwtTokenResultModel> LoginAsync(LoginModel model, CancellationToken cancellationToken = default);
 
         Task InitAdminAccountAsync(CancellationToken cancellation = default);
+
+        LoggedInUser GetUserProfile(string userId);
     }
 }

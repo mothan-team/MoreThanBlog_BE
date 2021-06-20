@@ -1,10 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using Abstraction.Repository.Model;
+using AutoMapper;
+using Core.Utils;
 
 namespace Mapper.User
 {
-    class UserProfile
+    public class UserProfile : Profile
     {
+        public UserProfile()
+        {
+            CreateMap<UserEntity, LoggedInUser>().IgnoreAllNonExisting();
+        }
     }
 }

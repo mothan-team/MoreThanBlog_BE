@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Abstraction.Repository.Model
 {
@@ -9,7 +10,9 @@ namespace Abstraction.Repository.Model
         public string LastName { get; set; }
 
         public string AvatarUrl { get; set; }
+
         public string Email { get; set; }
+
         public string PasswordHash { get; set; }
 
         public DateTimeOffset PasswordLastUpdatedTime { get; set; }
@@ -22,5 +25,9 @@ namespace Abstraction.Repository.Model
         public DateTimeOffset? EmailConfirmTokenExpireTime { get; set; }
 
         public bool IsActive { get; set; } = true;
+
+        public virtual ICollection<CategoryEntity> Categories { get; set; }
+
+        public virtual ICollection<BlogEntity> Blogs { get; set; }
     }
 }

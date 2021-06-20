@@ -14,25 +14,19 @@ using Core.Helper;
 using Core.Model.User;
 using Core.Utils;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 namespace Service.UserService
 {
     public class UserService: BaseService.Service, IUserService
     {
-
         private readonly IRepository<UserEntity> _userRepository;
-        private readonly JwtIssuerOptions _jwtOptions;
-
         private readonly ITokenService _tokenService;
 
         public UserService(IUnitOfWork unitOfWork,
-            IOptions<JwtIssuerOptions> jwtOptions,
-            ITokenService tokenService) : base(unitOfWork)
+            AutoMapper.IMapper mapper,
+            ITokenService tokenService) : base(unitOfWork, mapper)
         {
             _userRepository = UnitOfWork.GetRepository<UserEntity>();
-            _jwtOptions = jwtOptions.Value;
-
             _tokenService = tokenService;
         }
 
@@ -81,6 +75,13 @@ namespace Service.UserService
 
                 await UnitOfWork.SaveChangesAsync(cancellation);
             }
+        }
+
+        public LoggedInUser GetUserProfile(string userId)
+        {
+            return  _userRepository.Get(x => x.Id == userId)
+                .Select(x => _mapper.Map<LoggedInUser>(x))
+                .FirstOrDefault();
         }
 
         #region Utilities

@@ -39,6 +39,7 @@ namespace MoreThanBlog.Setup
             services.AddDbContext<DbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork<DbContext>>();
             services.AddScoped<ModelValidationFilterAttribute>();
+            services.AddScoped<SystemApiAuthFilter>();
 
 
             services.AddMemoryCache();// Todo research

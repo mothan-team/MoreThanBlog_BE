@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\4. Cross\Core\Core.csproj" />
     <ProjectReference Include="..\Abstraction.Repository\Abstraction.Repository.csproj" />
   </ItemGroup>
 

@@ -12,7 +12,7 @@ namespace MoreThanBlog.Setup
 {
     public static class AuthServicesInstaller
     {
-        private const string SecretKey = "GlotechKeyApiDontShared123!@#"; // todo: get this from somewhere secure
+        private const string SecretKey = "MoreThanTeamKeyApiDontShared123!@#"; // todo: get this from somewhere secure
 
         private static readonly SymmetricSecurityKey signingKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(SecretKey));
 

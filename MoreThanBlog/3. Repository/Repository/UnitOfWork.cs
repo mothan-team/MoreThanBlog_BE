@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Repository;
 using Abstraction.Repository.Model;
+using Core.Utils;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository
@@ -122,17 +123,17 @@ namespace Repository
                     {
                         baseEntity.DeletedTime = null;
                         baseEntity.LastUpdatedTime = baseEntity.CreatedTime = dateTimeNow;
-                        //baseEntity.CreatedBy = LoggedInUser.Current?.Id;
+                        baseEntity.CreatedBy = LoggedInUser.Current?.Id;
                     }
                     else if (entry.State == EntityState.Modified)
                     {
                         baseEntity.LastUpdatedTime = dateTimeNow;
-                        //baseEntity.LastUpdatedBy = LoggedInUser.Current?.Id;
+                        baseEntity.LastUpdatedBy = LoggedInUser.Current?.Id;
                     }
                     else
                     {
                         baseEntity.DeletedTime = dateTimeNow;
-                        //baseEntity.DeletedBy = LoggedInUser.Current?.Id;
+                        baseEntity.DeletedBy = LoggedInUser.Current?.Id;
                     }
                 }
             }
