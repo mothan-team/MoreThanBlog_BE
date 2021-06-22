@@ -22,7 +22,7 @@ namespace MoreThanBlog.Controllers
         }
 
         /// <summary>
-        /// Create blog
+        /// Update file
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
