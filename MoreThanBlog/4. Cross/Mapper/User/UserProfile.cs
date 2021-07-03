@@ -1,5 +1,6 @@
 ﻿using Abstraction.Repository.Model;
 using AutoMapper;
+using Core.Model.User;
 using Core.Utils;
 
 namespace Mapper.User
@@ -9,6 +10,7 @@ namespace Mapper.User
         public UserProfile()
         {
             CreateMap<UserEntity, LoggedInUser>().IgnoreAllNonExisting();
+            CreateMap<AddUserModel, UserEntity>().IgnoreAllNonExisting();
         }
     }
 }

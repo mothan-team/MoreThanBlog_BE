@@ -18,6 +18,10 @@ namespace Repository
 
         public DbSet<UserEntity> User { get; set; }
         public DbSet<CategoryEntity> Category { get; set; }
+        public DbSet<EmailTemplateEntity> EmailTemplate { get; set; }
+        public DbSet<BlogEntity> Blog { get; set; }
+        public DbSet<BlogCategoryEntity> BlogCategory { get; set; }
+        public DbSet<UserOtpEntity> UserOtp { get; set; }
 
         #endregion
 

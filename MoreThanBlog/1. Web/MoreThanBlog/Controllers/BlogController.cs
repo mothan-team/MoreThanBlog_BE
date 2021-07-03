@@ -39,31 +39,25 @@ namespace MoreThanBlog.Controllers
         }
 
         /// <summary>
-        /// Create blog
+        /// Save blog
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPost(Create)]
         [SwaggerResponse(StatusCodes.Status200OK, "Result", typeof(string))]
-        public async Task<IActionResult> CreateAsync([FromBody] AddBlogModel model)
+        public async Task<IActionResult> SaveAsync([FromBody] AddBlogModel model)
         {
-            var rs = await _blogService.CreateAsync(model);
+            var rs = await _blogService.SaveAsync(model);
             return Ok(rs);
         }
 
-        /// <summary>
-        /// Update blog
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="model"></param>
-        /// <returns></returns>
-        [HttpPut(Update)]
-        [SwaggerResponse(StatusCodes.Status200OK)]
-        public async Task<IActionResult> UpdateAsync([FromRoute] string id, [FromBody] AddBlogModel model)
-        {
-            await _blogService.UpdateAsync(id, model);
-            return NoContent();
-        }
+        //[HttpPut(Update)]
+        //[SwaggerResponse(StatusCodes.Status200OK)]
+        //public async Task<IActionResult> UpdateAsync([FromRoute] string id, [FromBody] AddBlogModel model)
+        //{
+        //    await _blogService.UpdateAsync(id, model);
+        //    return NoContent();
+        //}
 
         /// <summary>
         /// Delete blog

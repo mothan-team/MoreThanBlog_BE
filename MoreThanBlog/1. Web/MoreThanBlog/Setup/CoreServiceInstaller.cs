@@ -1,4 +1,5 @@
 ﻿using Abstraction.Repository;
+using Core.Utils;
 using Core.Validator;
 using FluentValidation.AspNetCore;
 using Mapper;
@@ -35,6 +36,9 @@ namespace MoreThanBlog.Setup
                     }
                 )
                 .AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining(typeof(IValidator))); ;
+
+            services.Configure<SmtpConfig>(configuration.GetSection(nameof(SmtpConfig)));
+            services.Configure<SystemSetting>(configuration.GetSection(nameof(SystemSetting)));
 
             services.AddDbContext<DbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork<DbContext>>();

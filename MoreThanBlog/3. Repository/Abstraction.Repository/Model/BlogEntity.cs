@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Core.Constants.Enum;
 
 namespace Abstraction.Repository.Model
 {
@@ -15,6 +16,8 @@ namespace Abstraction.Repository.Model
         public string MainImageId { get; set; }
 
         public bool IsActive { get; set; }
+
+        public BlogStatus Status { get; set; }
 
         public virtual ICollection<BlogCategoryEntity> BlogCategories { get; set; }
 

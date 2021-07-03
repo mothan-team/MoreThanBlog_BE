@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using Core.Model.Common;
+using Core.Utils;
 
 namespace Core.Helper
 {
@@ -8,10 +11,7 @@ namespace Core.Helper
     {
         public static string HashPassword(string password, DateTimeOffset passwordLastUpdatedTime)
         {
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                return null;
-            }
+            if (string.IsNullOrWhiteSpace(password)) return null;
 
             var salt = GenerateSalt(passwordLastUpdatedTime);
 
@@ -27,9 +27,9 @@ namespace Core.Helper
 
         public static string HashPassword(string password, string salt, int iterations = 100000)
         {
-            byte[] valueBytes = Encoding.UTF8.GetBytes(password);
+            var valueBytes = Encoding.UTF8.GetBytes(password);
 
-            byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
+            var saltBytes = Encoding.UTF8.GetBytes(salt);
 
             using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(valueBytes, saltBytes, iterations))
             {
@@ -39,6 +39,22 @@ namespace Core.Helper
 
                 return hashString;
             }
+        }
+
+        public static OtpModel GenerateOtp(TimeSpan? timeSpan)
+        {
+            if (!timeSpan.HasValue) timeSpan = new TimeSpan(0, 1,0,0);
+
+            var result = new OtpModel();
+            //Generate otp
+
+            var random = new Random();
+            const string chars = "123456789";
+
+            result.Otp = new string(Enumerable.Repeat(chars, 6)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+            result.ExpireTime = DateTimeOffset.UtcNow.Add(timeSpan.Value);
+            return result;
         }
     }
 }

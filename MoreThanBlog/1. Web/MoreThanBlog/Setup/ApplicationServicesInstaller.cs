@@ -1,12 +1,14 @@
 ﻿using Abstraction.Service.Blog;
 using Abstraction.Service.CategoryService;
 using Abstraction.Service.Common;
+using Abstraction.Service.Email;
 using Abstraction.Service.UserService;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Service.Blog;
 using Service.CategoryService;
 using Service.Common;
+using Service.Email;
 using Service.UserService;
 
 namespace MoreThanBlog.Setup
@@ -20,6 +22,8 @@ namespace MoreThanBlog.Setup
             services.AddTransient<ICategoryService, CategoryService>();
             services.AddTransient<IBlogService, BlogService>();
             services.AddTransient<IFileService, FileService>();
+            services.AddTransient<IEmailTemplateService, EmailTemplateService>();
+            services.AddTransient<IEmailService, EmailService>();
         }
     }
 }

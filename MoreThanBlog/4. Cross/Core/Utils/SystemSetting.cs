@@ -2,7 +2,8 @@
 {
     public class SystemSetting
     {
-        public static SystemSetting Current { get; set; }
-        public static JwtIssuerOptions JwtIssuerOptions { get; set; }
+        public string AdminSite { get; set; }
+
+        public string LandingPage { get; set; }
     }
 }

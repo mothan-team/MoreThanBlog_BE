@@ -7,7 +7,7 @@ namespace Abstraction.Service.Blog
 {
     public interface IBlogService
     {
-        Task<string> CreateAsync(AddBlogModel model, CancellationToken cancellationToken = default);
+        Task<string> SaveAsync(AddBlogModel model, CancellationToken cancellationToken = default);
 
         Task UpdateAsync(string id, AddBlogModel model, CancellationToken cancellationToken = default);
 

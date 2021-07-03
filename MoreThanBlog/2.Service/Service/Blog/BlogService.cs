@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Abstraction.Repository;
@@ -23,18 +24,35 @@ namespace Service.Blog
             _blogCategoryRepository = UnitOfWork.GetRepository<BlogCategoryEntity>();
         }
 
-        public async Task<string> CreateAsync(AddBlogModel model, CancellationToken cancellationToken = default)
+        public async Task<string> SaveAsync(AddBlogModel model, CancellationToken cancellationToken = default)
         {
-            CheckDuplicateTitle(model.Title);
+            CheckDuplicateTitle(model.Title, model.Id);
 
             var entity = _mapper.Map<BlogEntity>(model);
 
-            entity.BlogCategories = model.CategoryIds?.Select(x => new BlogCategoryEntity
+            if (string.IsNullOrWhiteSpace(model.Id)) // add
             {
-                CategoryId = x
-            }).ToList();
+                entity.Id = Guid.NewGuid().ToString("N");
+                entity.BlogCategories = model.CategoryIds?.Select(x => new BlogCategoryEntity
+                {
+                    CategoryId = x
+                }).ToList();
 
-            _blogRepository.Add(entity);
+                _blogRepository.Add(entity);
+            }
+            else // update
+            {
+                _blogRepository.Update(entity, x => x.Title, x => x.Content, x => x.Desc,
+                    x => x.IsActive, x => x.MainImageId, x => x.ReadTime, x => x.Status);
+
+                _blogCategoryRepository.DeleteWhere(x => x.BlogId == model.Id, true);
+
+                _blogCategoryRepository.AddRange(model.CategoryIds.Select(x => new BlogCategoryEntity
+                {
+                    BlogId = model.Id,
+                    CategoryId = x
+                }).ToArray());
+            }
 
             await UnitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -51,7 +69,7 @@ namespace Service.Blog
             entity.Id = id;
 
             _blogRepository.Update(entity, x => x.Title, x => x.Content, x => x.Desc, 
-                x => x.IsActive, x => x.MainImageId, x => x.ReadTime);
+                x => x.IsActive, x => x.MainImageId, x => x.ReadTime, x => x.Status);
 
             _blogCategoryRepository.DeleteWhere(x => x.BlogId == id, true);
 

@@ -1,10 +1,10 @@
 using System;
+using Abstraction.Service.Email;
 using Abstraction.Service.UserService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Repository;
 
 namespace MoreThanBlog
 {
@@ -20,6 +20,10 @@ namespace MoreThanBlog
                 context.Database.Migrate();
                 var userService = scope.ServiceProvider.GetService<IUserService>();
                 userService.InitAdminAccountAsync().Wait();
+
+                var emailTemplateService = scope.ServiceProvider.GetService<IEmailTemplateService>();
+                emailTemplateService.InitialEmailTemplate().Wait();
+
                 context.Dispose();
 
                 try

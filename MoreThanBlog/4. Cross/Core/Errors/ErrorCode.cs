@@ -19,6 +19,8 @@
         public const string UserNotFound = "User Not Found";
         public const string WrongPassword = "Wrong Password";
         public const string DuplicateName = "Duplicate name, please try again.";
+        public const string ConfirmEmailTokenInCorrect = "Verification code is incorrect";
+        public const string ConfirmEmailTokenExpired = "Verification code is expired";
 
         //Blog
         public const string DuplicateTitle = "Duplicate title, please try again.";
