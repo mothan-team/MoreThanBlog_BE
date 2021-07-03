@@ -10,10 +10,9 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace MoreThanBlog.Controllers
 {
-    [Route(Endpoint)]
     public class UserController : BaseController
     {
-        private const string Endpoint = "user";
+        private const string Endpoint = "users";
 
         private const string Login = "login";
         private const string Create = Endpoint + "/create";
