@@ -47,11 +47,14 @@ namespace Service.Blog
 
                 _blogCategoryRepository.DeleteWhere(x => x.BlogId == model.Id, true);
 
-                _blogCategoryRepository.AddRange(model.CategoryIds.Select(x => new BlogCategoryEntity
+                if (model.CategoryIds != null && model.CategoryIds.Any())
                 {
-                    BlogId = model.Id,
-                    CategoryId = x
-                }).ToArray());
+                    _blogCategoryRepository.AddRange(model.CategoryIds?.Select(x => new BlogCategoryEntity
+                    {
+                        BlogId = model.Id,
+                        CategoryId = x
+                    }).ToArray());
+                }
             }
 
             await UnitOfWork.SaveChangesAsync(cancellationToken);
