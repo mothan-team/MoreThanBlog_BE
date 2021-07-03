@@ -10,17 +10,18 @@ using Swashbuckle.AspNetCore.Annotations;
 
 namespace MoreThanBlog.Controllers
 {
+    [Route(Endpoint)]
     public class UserController : BaseController
     {
-        private const string Endpoint = "users";
+        private const string Endpoint = "user";
 
         private const string Login = "login";
-        private const string Create = Endpoint + "/create";
-        private const string Update = Endpoint + "/{id}";
-        private const string Delete = Endpoint + "/{id}";
-        private const string Get = Endpoint + "/{id}";
-        private const string Filter = Endpoint;
-        private const string ResetPassWord = Endpoint + "/reset-password";
+        private const string Create = "create";
+        private const string Update = "{id}";
+        private const string Delete = "{id}";
+        private const string Get = "{id}";
+        private const string Filter = "";
+        private const string ResetPassWord = "reset-password";
 
         private readonly IUserService _userService;
 
