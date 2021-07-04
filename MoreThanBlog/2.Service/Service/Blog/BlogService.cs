@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,8 +8,13 @@ using Abstraction.Repository.Model;
 using Abstraction.Service.Blog;
 using AutoMapper;
 using Core.Errors;
+using Core.Helper;
 using Core.Model.Blog;
+using Core.Model.Category;
 using Core.Model.Common;
+using Core.Model.File;
+using Core.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Service.Blog
@@ -18,10 +24,16 @@ namespace Service.Blog
         private readonly IRepository<BlogEntity> _blogRepository;
         private readonly IRepository<BlogCategoryEntity> _blogCategoryRepository;
 
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
+        protected readonly IHttpContextAccessor _httpContextAccessor;
+
+        public BlogService(IUnitOfWork unitOfWork, 
+            IMapper mapper,
+            IHttpContextAccessor httpContextAccessor) : base(unitOfWork, mapper)
         {
             _blogRepository = UnitOfWork.GetRepository<BlogEntity>();
             _blogCategoryRepository = UnitOfWork.GetRepository<BlogCategoryEntity>();
+
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<string> SaveAsync(AddBlogModel model, CancellationToken cancellationToken = default)
@@ -94,7 +106,7 @@ namespace Service.Blog
                 query = query.Where(x => x.Title.Contains(model.Terms) || x.Desc.Contains(model.Terms));
             }
 
-            return new PagedResponseModel<BlogModel>
+            var rs = new PagedResponseModel<BlogModel>
             {
                 Total = await query.CountAsync(cancellationToken: cancellationToken),
                 Items = await _mapper.ProjectTo<BlogModel>(query
@@ -102,13 +114,33 @@ namespace Service.Blog
                         .Take(model.Take))
                     .ToListAsync(cancellationToken: cancellationToken)
             };
+
+            if (rs.Items != null && rs.Items.Any())
+            {
+                foreach (var item in rs.Items)
+                {
+                    if (item.MainImage != null)
+                    {
+                        item.MainImage.Preview = _httpContextAccessor.HttpContext.Request.GetDomain() + item.MainImage.Slug;
+                    }
+                }
+            }
+
+            return rs;
         }
 
         public async Task<BlogModel> GetAsync(string id, CancellationToken cancellationToken = default)
         {
-            return await _mapper.ProjectTo<BlogModel>(
+            var rs = await _mapper.ProjectTo<BlogModel>(
                     _blogRepository.Get(x => x.Id == id))
                 .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            if (rs?.MainImage != null)
+            {
+                rs.MainImage.Preview = _httpContextAccessor.HttpContext.Request.GetDomain() + rs.MainImage.Slug;
+            }
+
+            return rs;
         }
 
         public async Task DeleteAsync(string id, CancellationToken cancellationToken = default)

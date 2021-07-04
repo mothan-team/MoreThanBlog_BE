@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Model.Category;
+using Core.Model.File;
 
 namespace Core.Model.Blog
 {
@@ -22,11 +23,11 @@ namespace Core.Model.Blog
 
         public int ReadTime { get; set; } // minutes
 
-        public string MainImageUrl { get; set; }
+        public FileModel MainImage { get; set; }
 
         public bool IsActive { get; set; }
 
-        public List<SortCategoryModel> Categories { get; set; }
+        public SortCategoryModel[] Categories { get; set; }
 
     }
 }
