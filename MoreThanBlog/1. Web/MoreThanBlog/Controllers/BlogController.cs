@@ -32,6 +32,7 @@ namespace MoreThanBlog.Controllers
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpGet(Filter)]
+        [AllowAnonymous]
         [SwaggerResponse(StatusCodes.Status201Created, "Result", typeof(PagedResponseModel<BlogModel>))]
         public async Task<IActionResult> FilterAsync([FromQuery] FilterBlogRequestModel model)
         {

@@ -17,6 +17,7 @@ using Core.Model.Common;
 using Core.Model.Email;
 using Core.Model.User;
 using Core.Utils;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -112,7 +113,7 @@ namespace Service.UserService
             await UnitOfWork.SaveChangesAsync(cancellationToken);
 
             //Send email reset pass
-            await SendEmailResetPasswordAsync(entity);
+            await SendEmailResetPasswordAsync(entity, EmailTemplateType.InviteEmployee);
 
             return entity.Id;
         }
@@ -210,6 +211,19 @@ namespace Service.UserService
             }
         }
 
+        public async Task GenerateOtpAsync(GenerateOTPModel model, CancellationToken cancellationToken = default)
+        {
+            var user = await _userRepository.Get(x => x.Email == model.Email)
+                .FirstOrDefaultAsync(cancellationToken: cancellationToken);
+
+            if (user == null)
+            {
+                throw new MoreThanBlogException(nameof(ErrorCode.UserNotFound), ErrorCode.UserNotFound);
+            }
+
+            await SendEmailResetPasswordAsync(user, EmailTemplateType.ForgotPass);
+        }
+
         #region Utilities
 
         private ClaimsIdentity GenerateClaimsIdentity(UserEntity user)
@@ -235,13 +249,13 @@ namespace Service.UserService
 
             if (query.Any())
             {
-                throw new MoreThanBlogException(ErrorCode.DuplicateName);
+                throw new MoreThanBlogException(nameof(ErrorCode.DuplicateName), ErrorCode.DuplicateName);
             }
         }
 
-        private async Task SendEmailResetPasswordAsync(UserEntity model)
+        private async Task SendEmailResetPasswordAsync(UserEntity model, EmailTemplateType type)
         {
-            var template = await _emailTemplateService.GetByKeyAsync(EmailTemplateType.InviteEmployee);
+            var template = await _emailTemplateService.GetByKeyAsync(type);
 
             if (template == null)
             {

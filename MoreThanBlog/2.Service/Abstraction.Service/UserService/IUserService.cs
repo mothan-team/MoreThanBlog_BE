@@ -27,5 +27,7 @@ namespace Abstraction.Service.UserService
         Task SetPasswordAsync(SetPasswordModel model, CancellationToken cancellationToken = default);
 
         Task CheckValidOtp(string otp, string email);
+
+        Task GenerateOtpAsync(GenerateOTPModel model, CancellationToken cancellationToken = default);
     }
 }

@@ -28,5 +28,9 @@
     <ProjectReference Include="..\..\4. Cross\Mapper\Mapper.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\PublishProfiles\" />
+  </ItemGroup>
+
 
 </Project>

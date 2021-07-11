@@ -22,6 +22,8 @@ namespace MoreThanBlog.Controllers
         private const string Get = "{id}";
         private const string Filter = "";
         private const string ResetPassWord = "reset-password";
+        private const string GenerateOtp = "otp/generate";
+        private const string VerifyOtp = "otp/verify";
 
         private readonly IUserService _userService;
 
@@ -121,6 +123,34 @@ namespace MoreThanBlog.Controllers
         public async Task<IActionResult> SetPasswordAsync([FromBody] SetPasswordModel model)
         {
             await _userService.SetPasswordAsync(model);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Generate Otp
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost(GenerateOtp)]
+        [AllowAnonymous]
+        [SwaggerResponse(StatusCodes.Status200OK, "Result")]
+        public async Task<IActionResult> GenerateOtpAsync([FromBody] GenerateOTPModel model)
+        {
+            await _userService.GenerateOtpAsync(model);
+            return NoContent();
+        }
+
+        /// <summary>
+        /// Verify otp
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        [HttpPost(VerifyOtp)]
+        [AllowAnonymous]
+        [SwaggerResponse(StatusCodes.Status200OK, "Result")]
+        public async Task<IActionResult> CheckValidOtp([FromBody] CheckValidOtpModel model)
+        {
+            await _userService.CheckValidOtp(model.Email, model.Otp);
             return NoContent();
         }
     }
