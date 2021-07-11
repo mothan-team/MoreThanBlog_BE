@@ -34,6 +34,15 @@ namespace Service.Email
                               "Please click <a href=\"{domain}/me/set-pass/{email}/{otp}\">here</a> to reset your password. <br/>" +
                               "Please click <a href=\"{domain}\">here</a> to access More Than Blog Admin platform.</p>" +
                               "<p>Thanks, <br/> More Than Blog</p>"
+                },
+                new EmailTemplateEntity
+                {
+                    Key = EmailTemplateType.ForgotPass,
+                    Title = "More Than Team Blog - Forgotten Password Confirm OTP!",
+                    HtmlContent = "<p>Dear {fullName}, </p>" +
+                                  "<p>You are receiving this message following your request to Reset Password in More Than Blog platform.<br/>" +
+                                  "Your Email Verification: <b> {otp} </b> <br/>  </p>" +
+                                  "<p>Thanks, <br/> More Than Blog</p>"
                 }
             };
 
