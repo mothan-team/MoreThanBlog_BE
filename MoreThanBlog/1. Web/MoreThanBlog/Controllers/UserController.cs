@@ -150,7 +150,7 @@ namespace MoreThanBlog.Controllers
         [SwaggerResponse(StatusCodes.Status200OK, "Result")]
         public async Task<IActionResult> CheckValidOtp([FromBody] CheckValidOtpModel model)
         {
-            await _userService.CheckValidOtp(model.Email, model.Otp);
+            await _userService.CheckValidOtp( model.Otp, model.Email);
             return NoContent();
         }
     }
